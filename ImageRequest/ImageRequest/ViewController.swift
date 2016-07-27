@@ -23,9 +23,19 @@ class ViewController: UIViewController {
         
         let imageURL = NSURL(string: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Cat_November_2010-1a.jpg")!
 		
-		NSURLSession.sharedSession().dataTaskWithURL(imageURL{ (data, 
-			response, error) in 
-			print("task finished")
+		let task = NSURLSession.sharedSession().dataTaskWithURL(imageURL{ (data, 
+			response, error) in 	
+
+			if error == nil {
+				let downloadedImage = UIImage(data: data!)
+
+				performUIUpdatesOnMain {	// make update to the UI
+					self.imageView.image = downloadedImage
+				}
+			} 
+
+		}
 		
+		task.resume()
     }
 }
